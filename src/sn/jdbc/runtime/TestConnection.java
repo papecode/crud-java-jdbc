@@ -1,6 +1,5 @@
 package sn.jdbc.runtime; // Ctrl + shif + o pour gérer les imports
 
-import javax.swing.JOptionPane;
 
 import sn.jdbc.exceptions.RepositoryException;
 import sn.jdbc.repository.IRepository;
@@ -13,7 +12,30 @@ public class TestConnection {
 		
 		IRepository<User> repository = new MySqlUserRepository();
 		
-		try {
+		  try {
+	            int userIdToRead = 1;
+	            User user = repository.read(userIdToRead);
+
+	            if (user != null) {
+	                System.out.println("User found:");
+	                System.out.println("ID: " + user.getId());
+	                System.out.println("Login: " + user.getLogin());
+	                System.out.println("Password: " + user.getPassword());
+	            } else {
+	                System.out.println("User not found with ID: " + userIdToRead);
+	            }
+	        } catch (RepositoryException e) {
+	            System.out.println("Error reading user: " + e.getMessage());
+	        }
+	    }	
+		
+		
+}
+	
+		
+		
+		
+		/*try {
 			User user = new User("wade","passer");
 			repository.create(user);
 			
@@ -21,6 +43,6 @@ public class TestConnection {
 		} catch (RepositoryException e) {
 			System.out.println("Error : " +e.getMessage());
 		}
-	}
+	}*/
 
-}
+

@@ -2,6 +2,7 @@ package sn.jdbc.repository.implement;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.List;
 
 import sn.jdbc.DBManager;
@@ -30,7 +31,22 @@ public class MySqlUserRepository implements IRepository<User> {
 
 	@Override
 	public User read(int id) throws RepositoryException {
-		// TODO Auto-generated method stub
+		try (Connection connection = DBManager.getConnection()) {
+			String query = "Select * From T_Users where id=?";
+			PreparedStatement ps = connection.prepareStatement(query);
+			//  ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY
+			
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				String login = rs.getString("login");
+				String password = rs.getString("password");
+				User user = new User (id, login, password);
+				return user;
+			}
+		} catch (Exception e) {
+			throw new RepositoryException(e.getMessage());
+		}
 		return null;
 	}
 

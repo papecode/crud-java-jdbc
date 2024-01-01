@@ -10,6 +10,12 @@ public class User {
 		this.password = password;
 	}
 
+	public User(int id, String login, String password) {
+		this(login,password);
+		this.id = id;
+		
+	}
+
 	public int getId() {
 		return id;
 	}
