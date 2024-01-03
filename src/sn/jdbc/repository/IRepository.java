@@ -1,4 +1,4 @@
-package sn.jdbc.repository;
+package sn.jdbc.repository; //Alt + shiff + J pour généger la documentation
 
 import java.util.List;
 

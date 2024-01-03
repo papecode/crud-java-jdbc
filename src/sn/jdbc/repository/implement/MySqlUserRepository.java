@@ -77,14 +77,34 @@ public class MySqlUserRepository implements IRepository<User> {
 
 	@Override
 	public void update(User entity) throws RepositoryException {
-		// TODO Auto-generated method stub
+		try (Connection connection = DBManager.getConnection()) {
+			String query = "Update T_Users Set login=?, password=? Where id=?";
+			PreparedStatement ps = connection.prepareStatement(query);
+			
+			ps.setString(1, entity.getLogin());
+			ps.setString(2, entity.getPassword());
+			ps.setInt(3, entity.getId());
+			ps.executeUpdate();
+		
+		} catch (Exception e) {
+			throw new RepositoryException(e.getMessage());
+		}
 		
 	}
 
 	@Override
 	public void delete(int id) throws RepositoryException {
-		// TODO Auto-generated method stub
+		try (Connection connection = DBManager.getConnection()) {
+			String query = "Delete From T_Users Where id=?";
+			
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setInt(1, id);
+			ps.executeUpdate();
 		
+		} catch (Exception e) {
+			throw new RepositoryException(e.getMessage());
+		}
+
 	}
 
 }
